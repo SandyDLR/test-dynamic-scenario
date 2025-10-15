@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamic Placeholder Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f9f9f9;
+    }
+    input {
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    label {
+      display: block;
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+  </style>
+
+  <!-- Transifex Live Configuration -->
+  <script type="text/javascript">
+    window.liveSettings = {
+      api_key: "YOUR_API_KEY_HERE",
+      reload_on_language_picker: true
+    };
+  </script>
+  <script src="//cdn.transifex.com/live.js"></script>
+</head>
+<body>
+  <h1>Dynamic Placeholder Demo</h1>
+
+  <label for="userInput">Example Input:</label>
+  <input id="userInput" type="text" placeholder="Choose a number up to {max}" />
+
+  <script>
+    // Simulate a dynamic number value
+    const maxValue = 55;
+    const input = document.getElementById('userInput');
+
+    // The placeholder source text — this should be the string in Transifex
+    const sourceText = "Choose a number up to {max}";
+
+    // Replace the variable with the real value
+    const localizedText = sourceText.replace("{max}", maxValue);
+
+    // Update the placeholder dynamically
+    input.setAttribute("placeholder", localizedText);
+
+    // When Transifex Live is ready, translate the node again
+    if (window.Transifex && Transifex.live) {
+      Transifex.live.onReady(function() {
+        Transifex.live.translateNode(input);
+      });
+    }
+  </script>
+</body>
+</html>
