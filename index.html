@@ -35,7 +35,7 @@
     .normaltext {
       color: #000000;
     }
-    .notranslate {
+    .dynamictext {
       color: #333;
       font-style: italic;
     }
@@ -74,7 +74,7 @@
       const choice = columnSelect.value;
       const value = slider.value;
 
-      const dynamicText = `<span class="normaltext">This is some dynamic text. This is the column choice: </span><span class="notranslate">${choice}</span><span class="normaltext">. This is the slider value: </span><span class="notranslate">${value}</span>`;
+      const dynamicText = `<span class="normaltext">This is some dynamic text. This is the column choice: </span><span class="dynamictext">${choice}</span><span class="normaltext">. This is the slider value: </span><span class="dynamictext"">${value}</span>`;
       output.innerHTML = dynamicText;
       sliderValue.textContent = value;
     }
