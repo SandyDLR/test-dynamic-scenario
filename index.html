@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamic Translation String Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #fafafa;
+    }
+    h1 {
+      color: #0078d7;
+    }
+    label {
+      font-weight: bold;
+      margin-right: 0.5rem;
+    }
+    select, input[type="range"] {
+      margin-right: 1rem;
+    }
+    #output {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      background: #fff;
+      padding: 1rem;
+      border-left: 4px solid #0078d7;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    span {
+      font-weight: bold;
+      color: #c00;
+    }
+    .notranslate {
+      color: #333;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <h1>Dynamic String Example</h1>
+
+  <div>
+    <label for="column">Column choice:</label>
+    <select id="column">
+      <option value="cyl1">cyl1</option>
+      <option value="blue">blue</option>
+      <option value="green">green</option>
+      <option value="black">black</option>
+      <!-- You can easily add up to 100 here -->
+    </select>
+
+    <label for="slider">Slider value:</label>
+    <input type="range" id="slider" min="0" max="100" value="50" />
+    <span id="sliderValue">50</span>
+  </div>
+
+  <div id="output"></div>
+
+  <script>
+    const columnSelect = document.getElementById('column');
+    const slider = document.getElementById('slider');
+    const sliderValue = document.getElementById('sliderValue');
+    const output = document.getElementById('output');
+
+    // Function to build and display the dynamic string
+    function updateString() {
+      const choice = columnSelect.value;
+      const value = slider.value;
+
+      const dynamicText = `This is some dynamic text. This is the column choice: <span>${choice}</span>. This is the slider value: <span class="notranslate">${value}</span>`;
+      output.innerHTML = dynamicText;
+      sliderValue.textContent = value;
+    }
+
+    // Event listeners to update text on interaction
+    columnSelect.addEventListener('change', updateString);
+    slider.addEventListener('input', updateString);
+
+    // Initialize on page load
+    updateString();
+  </script>
+</body>
+</html>
