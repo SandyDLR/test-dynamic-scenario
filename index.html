@@ -40,7 +40,14 @@
       font-style: italic;
     }
   </style>
-  <script type="text/javascript">window.liveSettings={api_key:"cd2720ac4a504333930af587528e3724"}</script>
+
+  <!-- Transifex Live configuration -->
+  <script type="text/javascript">
+    window.liveSettings = {
+      api_key: "cd2720ac4a504333930af587528e3724",
+      reload_on_language_picker: true
+    };
+  </script>
   <script type="text/javascript" src="//cdn.transifex.com/live.js"></script>
 </head>
 <body>
@@ -74,17 +81,33 @@
       const choice = columnSelect.value;
       const value = slider.value;
 
-      const dynamicText = `<span class="normaltext">This is some dynamic text. This is the column choice: </span><span class="dynamictext">${choice}</span><span class="normaltext">. This is the slider value: </span><span class="dynamictext">${value}</span>`;
+      // Main text with dynamic parts
+      const dynamicText = `
+        <span class="normaltext">This is some dynamic text. This is the column choice: </span>
+        <span class="dynamictext">${choice}</span>
+        <span class="normaltext">. This is the slider value: </span>
+        <span class="dynamictext">${value}</span>
+      `;
+
+      // Update DOM
       output.innerHTML = dynamicText;
       sliderValue.textContent = value;
+
+      // Tell Transifex Live to translate the updated node
+      if (window.Transifex && Transifex.live) {
+        Transifex.live.translateNode(output);
+      }
     }
 
-    // Event listeners to update text on interaction
-    columnSelect.addEventListener('change', updateString);
-    slider.addEventListener('input', updateString);
+    // Wait until Transifex Live is ready before enabling updates
+    Transifex.live.onReady(function () {
+      // Initial render
+      updateString();
 
-    // Initialize on page load
-    updateString();
+      // Event listeners to update text dynamically
+      columnSelect.addEventListener('change', updateString);
+      slider.addEventListener('input', updateString);
+    });
   </script>
 </body>
 </html>
