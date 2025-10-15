@@ -10,31 +10,46 @@
       padding: 2rem;
       background: #f9f9f9;
     }
-    input {
+    input[type="text"] {
       padding: 0.5rem;
       font-size: 1rem;
       width: 320px;
       border: 1px solid #ccc;
       border-radius: 4px;
+      display: block;
+      margin-top: 1rem;
     }
     label {
       display: block;
-      margin-bottom: 1rem;
+      margin-top: 1rem;
       font-weight: bold;
+    }
+    input[type="range"] {
+      width: 320px;
+      margin-top: 0.5rem;
+    }
+    .value-display {
+      font-weight: bold;
+      color: #0078d7;
+      margin-left: 0.5rem;
     }
   </style>
 
-   <!-- Transifex Live configuration -->
+  <!-- Transifex Live configuration -->
   <script type="text/javascript">
     window.liveSettings = {
       api_key: "cd2720ac4a504333930af587528e3724",
       reload_on_language_picker: true
     };
   </script>
-  <script type="text/javascript" src="//cdn.transifex.com/live.js"></script>
+  <script src="//cdn.transifex.com/live.js"></script>
 </head>
 <body>
   <h1>Dynamic Placeholder Demo</h1>
+
+  <label for="slider">Select a number:</label>
+  <input id="slider" type="range" min="0" max="100" value="55" />
+  <span class="value-display" id="sliderValue">55</span>
 
   <label for="userInput">Example Input:</label>
   <input id="userInput" type="text" placeholder="" />
@@ -42,19 +57,25 @@
   <script>
     Transifex.live.onReady(function() {
       const input = document.getElementById('userInput');
+      const slider = document.getElementById('slider');
+      const sliderValue = document.getElementById('sliderValue');
 
-      // --- Split variables ---
-      const staticText = "Choose a number up to"; // translatable part
-      const dynamicValue = 55;                    // non-translatable part
+      const staticText = "Choose a number up to"; // Only this is translatable
 
-      // --- Translate only the static part ---
-      const translatedText = Transifex.live.translateText(staticText);
+      // Function to update the placeholder dynamically
+      function updatePlaceholder() {
+        const dynamicValue = slider.value;
+        const translatedText = Transifex.live.translateText(staticText);
+        const placeholder = `${translatedText} ${dynamicValue}`;
+        input.setAttribute("placeholder", placeholder);
+        sliderValue.textContent = dynamicValue;
+      }
 
-      // --- Combine both ---
-      const placeholder = `${translatedText} ${dynamicValue}`;
+      // Initial placeholder
+      updatePlaceholder();
 
-      // --- Apply the result ---
-      input.setAttribute("placeholder", placeholder);
+      // Update placeholder when slider changes
+      slider.addEventListener('input', updatePlaceholder);
     });
   </script>
 </body>
