@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dynamic Placeholder Example</title>
+  <title>Dynamic Placeholder with Static Source</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,7 +13,7 @@
     input {
       padding: 0.5rem;
       font-size: 1rem;
-      width: 300px;
+      width: 320px;
       border: 1px solid #ccc;
       border-radius: 4px;
     }
@@ -24,49 +24,38 @@
     }
   </style>
 
-  <!-- Transifex Live Configuration -->
-  <script type="text/javascript">
+  <!-- Transifex Live -->
+  <script>
     window.liveSettings = {
       api_key: "YOUR_API_KEY_HERE",
       reload_on_language_picker: true
     };
   </script>
   <script src="//cdn.transifex.com/live.js"></script>
-   <!-- Transifex Live configuration -->
-  <script type="text/javascript">
-    window.liveSettings = {
-      api_key: "cd2720ac4a504333930af587528e3724"
-    };
-  </script>
-  <script type="text/javascript" src="//cdn.transifex.com/live.js"></script>
-
 </head>
 <body>
   <h1>Dynamic Placeholder Demo</h1>
 
   <label for="userInput">Example Input:</label>
-  <input id="userInput" type="text" placeholder="Choose a number up to {max}" />
+  <input id="userInput" type="text" placeholder="" />
 
   <script>
-    // Simulate a dynamic number value
-    const maxValue = 55;
-    const input = document.getElementById('userInput');
+    Transifex.live.onReady(function() {
+      const input = document.getElementById('userInput');
 
-    // The placeholder source text — this should be the string in Transifex
-    const sourceText = "Choose a number up to {max}";
+      // --- Split variables ---
+      const staticText = "Choose a number up to"; // translatable part
+      const dynamicValue = 55;                    // non-translatable part
 
-    // Replace the variable with the real value
-    const localizedText = sourceText.replace("{max}", maxValue);
+      // --- Translate only the static part ---
+      const translatedText = Transifex.live.translateText(staticText);
 
-    // Update the placeholder dynamically
-    input.setAttribute("placeholder", localizedText);
+      // --- Combine both ---
+      const placeholder = `${translatedText} ${dynamicValue}`;
 
-    // When Transifex Live is ready, translate the node again
-    if (window.Transifex && Transifex.live) {
-      Transifex.live.onReady(function() {
-        Transifex.live.translateNode(input);
-      });
-    }
+      // --- Apply the result ---
+      input.setAttribute("placeholder", placeholder);
+    });
   </script>
 </body>
 </html>
